@@ -17,9 +17,9 @@ import (
 	"time"
 )
 
-// UNIT TEST
+// МОДУЛЬНЫЙ ТЕСТ
 func TestGenerateToken(t *testing.T) {
-	// Define test data
+	// Определение тестовых данных
 	userId := "123456"
 	login := "testuser"
 	role := "admin"
@@ -31,7 +31,7 @@ func TestGenerateToken(t *testing.T) {
 	}
 
 	token, parseErr := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// Check the signing method
+		//Проверьте метод подписи
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
 		}
@@ -42,13 +42,13 @@ func TestGenerateToken(t *testing.T) {
 		t.Errorf("Error parsing token: %v", parseErr)
 	}
 
-	// Validate token claims
+	// Проверка заявок на токены
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
 		t.Errorf("Token validation failed")
 	}
 
-	// Check if userId, login, and role are correct
+	// Проверьте правильность идентификатора пользователя, логина и роли.
 	if claims["userId"] != userId {
 		t.Errorf("Expected userId to be %s, got %v", userId, claims["userId"])
 	}
@@ -59,7 +59,8 @@ func TestGenerateToken(t *testing.T) {
 		t.Errorf("Expected role to be %s, got %v", role, claims["role"])
 	}
 
-	// Check expiration
+	// ИНТЕГРИРУЮЩИЙ ТЕСТ
+	
 	exp := claims["exp"].(float64)
 	expTime := time.Unix(int64(exp), 0)
 	if expTime.Before(time.Now()) {
@@ -67,7 +68,7 @@ func TestGenerateToken(t *testing.T) {
 	}
 }
 
-// INTEGRATING TEST
+// ИНТЕГРИРОВАННЫЙ ТЕСТ
 func TestRegisterIntegration(t *testing.T) {
 
 	data := map[string]interface{}{
