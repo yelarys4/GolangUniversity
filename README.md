@@ -7,7 +7,7 @@
 
 ### Running:
 ```shell
-go build
+go build && ./GolangUniversity
 ```
 
 ### Used technologies:

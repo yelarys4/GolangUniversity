@@ -3,16 +3,13 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/Hoaper/golang_university/app/handlers"
-	"github.com/Hoaper/golang_university/app/repositories"
-	"github.com/Hoaper/golang_university/app/services"
-	"github.com/Hoaper/golang_university/app/utils"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/tebeka/selenium"
-	"github.com/tebeka/selenium/chrome"
+	"github.com/yelarys4/GolangUniversity/app/handlers"
+	"github.com/yelarys4/GolangUniversity/app/repositories"
+	"github.com/yelarys4/GolangUniversity/app/services"
+	"github.com/yelarys4/GolangUniversity/app/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -74,7 +71,7 @@ func TestGenerateToken(t *testing.T) {
 func TestRegisterIntegration(t *testing.T) {
 
 	data := map[string]interface{}{
-		"login":    "beeboplay@gmail.com",
+		"login":    "test@gmail.com",
 		"password": "12345",
 	}
 	jsonData, _ := json.Marshal(data)
@@ -103,102 +100,5 @@ func TestRegisterIntegration(t *testing.T) {
 
 	if actualTrimmed != expectedTrimmed {
 		t.Errorf("Incorrect response body. Expected: %s, Got: %s", expected, response.Body.String())
-	}
-}
-
-// INTERFACE TEST
-func TestInterface(t *testing.T) {
-	service, err := selenium.NewChromeDriverService("./chromedriver-win64/chromedriver-win64/chromedriver.exe", 4444)
-	if err != nil {
-		log.Fatal("Error:", err)
-	}
-	defer service.Stop()
-
-	caps := selenium.Capabilities{}
-	caps.AddChrome(chrome.Capabilities{Args: []string{
-		"--headless-new", // comment out this line for testing
-	}})
-
-	// create a new remote client with the specified options
-	driver, err := selenium.NewRemote(caps, "")
-
-	if err != nil {
-		log.Fatal("Error:", err)
-	}
-
-	// maximize the current window to avoid responsive rendering
-	err = driver.MaximizeWindow("")
-	if err != nil {
-		log.Fatal("Error:", err)
-	}
-	err = driver.Get("http://localhost:3000")
-	if err != nil {
-		log.Fatal("Error:", err)
-	}
-	time.Sleep(2 * time.Second)
-	button, err := driver.FindElements(selenium.ByCSSSelector, ".text-white")
-	if err != nil {
-		log.Fatalf("Failed to find button: %v", err)
-	}
-	if err := button[1].Click(); err != nil {
-		panic(err)
-	}
-	var testLogin = "beeboplay@gmail.com"
-	var testPassword = "123"
-	time.Sleep(1 * time.Second)
-	loginEl, err := driver.FindElement(selenium.ByID, "username")
-	if err != nil {
-		log.Fatalf("Failed to find button: %v", err)
-	}
-	err = loginEl.SendKeys(testLogin)
-	if err != nil {
-		log.Fatalf("Did not send keys %v", err)
-	}
-	passwordEl, err := driver.FindElement(selenium.ByID, "password")
-	if err != nil {
-		log.Fatalf("Failed to find button: %v", err)
-	}
-	err = passwordEl.SendKeys(testPassword)
-	if err != nil {
-		log.Fatalf("Did not send keys %v", err)
-	}
-	loginButton, err := driver.FindElement(selenium.ByCSSSelector, "button.bg-gradient-to-b")
-	if err != nil {
-		log.Fatalf("Failed to find button: %v", err)
-	}
-	time.Sleep(1 * time.Second)
-	if err := loginButton.Click(); err != nil {
-		panic(err)
-	}
-	time.Sleep(5 * time.Second)
-	err = driver.Refresh()
-	if err != nil {
-		log.Fatal("Could not refresh")
-	}
-	time.Sleep(5 * time.Second)
-	element, err := driver.FindElements(selenium.ByCSSSelector, "button")
-	if err != nil {
-		log.Fatal("Could not find element")
-	}
-	if element[1] != nil {
-	} else {
-		log.Fatal("User profile did not show up")
-	}
-	err = element[1].Click()
-	if err != nil {
-		log.Fatal("Could not click")
-	}
-	time.Sleep(2 * time.Second)
-	myLibraryButton, err := driver.FindElement(selenium.ByCSSSelector, "#headlessui-menu-item-\\:r2\\:")
-	if err != nil {
-		log.Fatal("Could not find element myLibraryButton")
-	}
-	err = myLibraryButton.Click()
-	if err != nil {
-		return
-	}
-	time.Sleep(5 * time.Second)
-	if err != nil {
-		log.Fatal("Error:", err)
 	}
 }

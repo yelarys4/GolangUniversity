@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/Hoaper/golang_university/app/utils"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/app/utils"
 	"net/http"
 )
 

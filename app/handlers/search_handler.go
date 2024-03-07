@@ -3,8 +3,9 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"github.com/Hoaper/golang_university/app/models"
+	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/app/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -102,6 +103,7 @@ func GetPaginatedItems(w http.ResponseWriter, r *http.Request) {
 		}
 		books = append(books, book)
 	}
+	fmt.Println(books[0].ID.String())
 
 	if err := cursor.Err(); err != nil {
 		log.Fatal(err)

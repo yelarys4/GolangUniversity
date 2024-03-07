@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/Hoaper/golang_university/app/models"
-	"github.com/Hoaper/golang_university/app/services"
-	"github.com/Hoaper/golang_university/app/utils"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/app/models"
+	"github.com/yelarys4/GolangUniversity/app/services"
+	"github.com/yelarys4/GolangUniversity/app/utils"
 	"net/http"
 )
 
@@ -23,18 +23,20 @@ type VerifyRequest struct {
 }
 
 func (h *AuthHandler) VerifyHandler(w http.ResponseWriter, r *http.Request) {
-	var body VerifyRequest
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		logrus.WithError(err).Error("Invalid request payload")
-		utils.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+	token := r.URL.Query().Get("token")
+	if token == "" {
+		logrus.Error("Token not found in query parameters")
+		utils.RespondWithError(w, http.StatusBadRequest, "Token not found in query parameters")
 		return
 	}
-	user, err := h.UserService.GetUserByToken(body.Token)
+
+	user, err := h.UserService.GetUserByToken(token)
 	if err != nil {
 		logrus.WithError(err).Error("User not found")
-		utils.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		utils.RespondWithError(w, http.StatusBadRequest, "User not found")
 		return
 	}
+
 	user.Validated = true
 	err = h.UserService.UpdateUser(user)
 	if err != nil {
@@ -42,6 +44,7 @@ func (h *AuthHandler) VerifyHandler(w http.ResponseWriter, r *http.Request) {
 		utils.RespondWithError(w, http.StatusBadRequest, "Something went wrong!")
 		return
 	}
+
 	utils.RespondWithJSON(w, http.StatusOK, map[string]string{"message": "Profile verified"})
 }
 

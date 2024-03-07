@@ -2,9 +2,9 @@ package services
 
 import (
 	"errors"
-	"github.com/Hoaper/golang_university/app/models"
-	"github.com/Hoaper/golang_university/app/repositories"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/app/models"
+	"github.com/yelarys4/GolangUniversity/app/repositories"
 )
 
 type UserService interface {

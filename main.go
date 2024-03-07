@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/Hoaper/golang_university/routes"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/routes"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"

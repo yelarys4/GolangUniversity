@@ -3,8 +3,8 @@ package utils
 import (
 	"context"
 	"fmt"
-	"github.com/Hoaper/golang_university/app/models"
 	"github.com/sirupsen/logrus"
+	"github.com/yelarys4/GolangUniversity/app/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -20,7 +20,7 @@ func SendEmail(token string, to []string) {
 	smtpPort := "587"
 
 	subject := "Confirm your email, please!"
-	body := fmt.Sprintf(`Hello, %s! Please, validate your email clicking this link: https://express-frontend-university.vercel.app/auth/verify?token=%s`, to[0], token)
+	body := fmt.Sprintf(`Hello, %s! Please, validate your email clicking this link: http://localhost/auth/verify?token=%s`, to[0], token)
 
 	auth := smtp.PlainAuth("", "kuanyshmaximauth", password, smtpHost)
 

@@ -3,7 +3,6 @@ module github.com/yelarys4/GolangUniversity
 go 1.20
 
 require (
-	github.com/Hoaper/golang_university v0.0.0-20240301074028-9c764a7de526
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/handlers v1.5.2
